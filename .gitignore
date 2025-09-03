@@ -1,0 +1,35 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# Logs
+*.log
+logs/
+debug.log
+
+# VSCode settings
+.vscode/
+.history/
+
+# Build outputs
+out/
+dist/
+*.vsix
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Coverage
+coverage/
+*.lcov
+
+# Temporary files
+*.tmp
+*.swp
+
+# Env files
+.env
+.env.local

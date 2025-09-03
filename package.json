@@ -1,0 +1,83 @@
+{
+  "name": "mockman",
+  "displayName": "MockMan",
+  "description": "🚀 MockMan is a lightweight Fake Database-as-a-Service that helps developers, students, and teams create and manage mock APIs directly inside Visual Studio Code.",
+  "version": "0.0.1",
+  "publisher": "bhavya",
+  "engines": {
+    "vscode": "^1.103.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:mockman.signup",
+    "onCommand:mockman.login",
+    "onView:mockmanExplorer"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "mockman",
+          "title": "MockMan",
+          "icon": "media/mockman.svg"
+        }
+      ]
+    },
+    "views": {
+      "mockman": [
+        {
+          "id": "mockmanCollections",
+          "name": "Collections"
+        }
+      ]
+    },
+    "configuration": {
+      "type": "object",
+      "title": "MockMan Settings",
+      "properties": {
+        "mockman.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Your MockMan API Key"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "mockman.signup",
+        "title": "MockMan: Sign Up"
+      },
+      {
+        "command": "mockman.login",
+        "title": "MockMan: Login"
+      },
+      {
+        "command": "mockman.getCollections",
+        "title": "MockMan: Get Collections"
+      },
+      {
+        "command": "mockman.refresh",
+        "title": "MockMan: Refresh Collections"
+      }
+    ]
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/vscode": "^1.103.0",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^9.32.0"
+  },
+  "dependencies": {
+    "axios": "^1.11.0"
+  }
+}
