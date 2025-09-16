@@ -3,7 +3,7 @@
   "displayName": "MockMan",
   "description": "🚀 MockMan is a lightweight Fake Database-as-a-Service that helps developers, students, and teams create and manage mock APIs directly inside Visual Studio Code.",
   "version": "0.0.1",
-  "publisher": "bhavya",
+  "publisher": "MockMan",
   "engines": {
     "vscode": "^1.103.0"
   },
@@ -11,9 +11,11 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:mockman.signup",
+    "onView:mockmanCollections",
     "onCommand:mockman.login",
-    "onView:mockmanExplorer"
+    "onCommand:mockman.refresh",
+    "onCommand:mockman.templates",
+    "onUri:MockMan.mockman"
   ],
   "main": "./extension.js",
   "contributes": {
@@ -30,7 +32,10 @@
       "mockman": [
         {
           "id": "mockmanCollections",
-          "name": "Collections"
+          "name": "Collections",
+          "type": "tree",
+          "contextualTitle": "Collections",
+          "when": "config.mockman.apiKey"
         }
       ]
     },
@@ -47,27 +52,69 @@
     },
     "commands": [
       {
-        "command": "mockman.signup",
-        "title": "MockMan: Sign Up"
-      },
-      {
         "command": "mockman.login",
-        "title": "MockMan: Login"
-      },
-      {
-        "command": "mockman.getCollections",
-        "title": "MockMan: Get Collections"
+        "title": "MockMan: Login",
+        "icon": "$(sign-in)"
       },
       {
         "command": "mockman.refresh",
-        "title": "MockMan: Refresh Collections"
+        "title": "MockMan: Refresh Collections",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "mockman.templates",
+        "title": "MockMan: Browse Templates",
+        "icon": "$(library)"
+      },
+      {
+        "command": "mockman.showEndpoints",
+        "title": "MockMan: Show Endpoints",
+        "icon": "$(globe)"
       }
-    ]
+    ],
+    "viewsWelcome": [
+      {
+        "view": "mockmanCollections",
+        "contents": "Please login to view your MockMan collections.\n[Login](command:mockman.login)"
+      }
+    ],
+    "view/title": [
+      {
+        "command": "mockman.login",
+        "when": "view == mockmanCollections && !config.mockman.apiKey",
+        "group": "navigation@1"
+      },
+      {
+        "command": "mockman.refresh",
+        "when": "view == mockmanCollections && config.mockman.apiKey",
+        "group": "navigation@2"
+      }
+    ],
+    "menus": {
+      "view/item/context": [
+        {
+          "command": "mockman.showEndpoints",
+          "when": "view == mockmanCollections && viewItem == collection",
+          "group": "navigation"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "mockman.templates",
+          "when": "view == mockmanCollections && config.mockman.apiKey",
+          "group": "navigation@3"
+        }
+      ]
+    }
   },
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "build": "node ./esbuild.js"
+  },
+  "dependencies": {
+    "axios": "^1.12.2"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
@@ -75,9 +122,7 @@
     "@types/vscode": "^1.103.0",
     "@vscode/test-cli": "^0.0.11",
     "@vscode/test-electron": "^2.5.2",
+    "esbuild": "^0.25.9",
     "eslint": "^9.32.0"
-  },
-  "dependencies": {
-    "axios": "^1.11.0"
   }
 }
